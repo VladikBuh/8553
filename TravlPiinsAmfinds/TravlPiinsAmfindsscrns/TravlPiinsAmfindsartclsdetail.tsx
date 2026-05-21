@@ -29,7 +29,7 @@ const travlPiinsAmfindsOrange = '#F0A030';
 const travlPiinsAmfindsBg = '#121212';
 const travlPiinsAmfindsCard = '#2A2A2A';
 const travlPiinsAmfindsBtnBg = '#2A2A2A';
-const travlPiinsAmfindsMuted = '#A0A0A0';
+
 const travlPiinsAmfindsTitleC = '#FFFFFF';
 
 const TravlPiinsAmfindsartclsdetail = (): React.JSX.Element | null => {

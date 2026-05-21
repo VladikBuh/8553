@@ -1,6 +1,11 @@
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+  type RouteProp,
+} from '@react-navigation/native';
 import type {StackNavigationProp} from '@react-navigation/stack';
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
   Image,
   Modal,
@@ -33,7 +38,6 @@ import Orientation from 'react-native-orientation-locker';
 const travlPiinsAmfindsCOrange = '#F0A030';
 const travlPiinsAmfindsCPurple = '#A78BFA';
 const travlPiinsAmfindsCGreen = '#26D07C';
-const travlPiinsAmfindsBg = '#1B1C1D';
 const travlPiinsAmfindsCard = '#2A2A2A';
 const travlPiinsAmfindsInner = '#373737';
 const travlPiinsAmfindsBorder = '#3B3737';
@@ -89,6 +93,13 @@ const travlPiinsAmfindsInitialRegion: Region = {
   longitudeDelta: 20,
 };
 
+const travlPiinsAmfindsFocusZoomDelta = 0.35;
+
+type TravlPiinsAmfindsMapMainRoute = RouteProp<
+  TravlPiinsAmfindsMapStackParamList,
+  'TravlPiinsAmfindsmaapMain'
+>;
+
 function travlPiinsAmfindsSnippet(travlPiinsAmfindsText: string, len: number) {
   const t = travlPiinsAmfindsText.trim();
   if (t.length <= len) {
@@ -134,6 +145,7 @@ function TravlPiinsAmfindsMapPinBubble({
 
 const TravlPiinsAmfindsmaap = (): React.JSX.Element => {
   const travlPiinsAmfindsInsets = useSafeAreaInsets();
+  const travlPiinsAmfindsRoute = useRoute<TravlPiinsAmfindsMapMainRoute>();
   const travlPiinsAmfindsNavigation =
     useNavigation<
       StackNavigationProp<
@@ -141,6 +153,7 @@ const TravlPiinsAmfindsmaap = (): React.JSX.Element => {
         'TravlPiinsAmfindsmaapMain'
       >
     >();
+  const travlPiinsAmfindsMapRef = useRef<MapView>(null);
 
   const {travlPiinsAmfindsMarkById} = useTravlPiinsAmfindsexpllrctx();
 
@@ -210,6 +223,36 @@ const TravlPiinsAmfindsmaap = (): React.JSX.Element => {
       };
     }, []),
   );
+
+  useEffect(() => {
+    const travlPiinsAmfindsFocusId =
+      travlPiinsAmfindsRoute.params?.travlPiinsAmfindsFocusId;
+    if (!travlPiinsAmfindsFocusId) {
+      return;
+    }
+    const loc = travlPiinsAmfindsFindLocation(travlPiinsAmfindsFocusId);
+    if (!loc) {
+      return;
+    }
+    const region: Region = {
+      latitude: loc.travlPiinsAmfindsLat,
+      longitude: loc.travlPiinsAmfindsLng,
+      latitudeDelta: travlPiinsAmfindsFocusZoomDelta,
+      longitudeDelta: travlPiinsAmfindsFocusZoomDelta,
+    };
+    settravlPiinsAmfindsMapMode('world');
+    settravlPiinsAmfindsAddOpen(false);
+    settravlPiinsAmfindsSelectedCatalogId(travlPiinsAmfindsFocusId);
+    settravlPiinsAmfindsRegion(region);
+    const travlPiinsAmfindsAnimTimer = setTimeout(() => {
+      travlPiinsAmfindsMapRef.current?.animateToRegion(region, 450);
+    }, 80);
+    travlPiinsAmfindsNavigation.setParams({travlPiinsAmfindsFocusId: undefined});
+    return () => clearTimeout(travlPiinsAmfindsAnimTimer);
+  }, [
+    travlPiinsAmfindsNavigation,
+    travlPiinsAmfindsRoute.params?.travlPiinsAmfindsFocusId,
+  ]);
 
   const travlPiinsAmfindsOpenAdd = useCallback(() => {
     settravlPiinsAmfindsSelectedCatalogId(null);
@@ -395,6 +438,7 @@ const TravlPiinsAmfindsmaap = (): React.JSX.Element => {
               </View>
             ) : null}
             <MapView
+              ref={travlPiinsAmfindsMapRef}
               provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
               userInterfaceStyle="dark"
               style={styles.travlPiinsAmfindsMap}
@@ -728,9 +772,7 @@ const TravlPiinsAmfindsmaap = (): React.JSX.Element => {
             />
             <View style={styles.travlPiinsAmfindsDelCard}>
               <View style={styles.travlPiinsAmfindsDelIconWrap}>
-                <Image
-                  source={require('../../assets/imgs/deleteHandle.png')}
-                />
+                <Image source={require('../../assets/imgs/deleteHandle.png')} />
               </View>
               <Text style={styles.travlPiinsAmfindsDelTitle}>Delete Pin?</Text>
               <Text style={styles.travlPiinsAmfindsDelBody}>

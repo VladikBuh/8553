@@ -1,4 +1,5 @@
 import {
+  CommonActions,
   useFocusEffect,
   useNavigation,
   useRoute,
@@ -8,7 +9,6 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {
   Image,
   ImageBackground,
-  Linking,
   Pressable,
   ScrollView,
   Share,
@@ -159,9 +159,16 @@ const TravlPiinsAmfindsexpllrdetail = (): React.JSX.Element | null => {
     }
   };
 
-  const travlPiinsAmfindsOpenMaps = () => {
-    const url = `https://www.google.com/maps/search/?api=1&query=${loc.travlPiinsAmfindsLat},${loc.travlPiinsAmfindsLng}`;
-    Linking.openURL(url);
+  const travlPiinsAmfindsViewOnMap = () => {
+    navigation.dispatch(
+      CommonActions.navigate({
+        name: 'TravlPiinsAmfindsmaap',
+        params: {
+          screen: 'TravlPiinsAmfindsmaapMain',
+          params: {travlPiinsAmfindsFocusId: loc.travlPiinsAmfindsId},
+        },
+      }),
+    );
   };
 
   return (
@@ -331,7 +338,7 @@ const TravlPiinsAmfindsexpllrdetail = (): React.JSX.Element | null => {
           </View>
 
           <Pressable
-            onPress={travlPiinsAmfindsOpenMaps}
+            onPress={travlPiinsAmfindsViewOnMap}
             style={({pressed}) => [
               styles.travlPiinsAmfindsMapBtn,
               pressed && styles.travlPiinsAmfindsPressed,

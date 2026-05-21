@@ -22,7 +22,7 @@ export type TravlPiinsAmfindsExploreStackParamList = {
 };
 
 export type TravlPiinsAmfindsMapStackParamList = {
-  TravlPiinsAmfindsmaapMain: undefined;
+  TravlPiinsAmfindsmaapMain: {travlPiinsAmfindsFocusId?: string} | undefined;
   TravlPiinsAmfindsexpllrdetail: {travlPiinsAmfindsId: string};
 };
 
