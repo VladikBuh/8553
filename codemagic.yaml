@@ -9,9 +9,9 @@ workflows:
       xcode: '26.0'
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: com.kjds.kjdsd.dlkae
+        bundle_identifier: com.iqrjwop.lskdnv
       vars:
-        BUNDLE_ID: com.kjds.kjdsd.dlkae
+        BUNDLE_ID: com.iqrjwop.lskdnv
         XCODE_WORKSPACE: TravelPinsAmazingFinds.xcworkspace
         XCODE_SCHEME: TravelPinsAmazingFinds
         APP_STORE_APPLE_ID: 6771707915
