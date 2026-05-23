@@ -1,4 +1,4 @@
-package com.travelpinsamazingfinds
+package com.theamazonn.travelpins
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

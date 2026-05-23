@@ -1,5 +1,11 @@
 import React, {type RefObject} from 'react';
-import {ScrollView, StyleSheet, View, type ScrollView as ScrollViewType} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  type ScrollView as ScrollViewType,
+} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 const TravlPiinsAmfindslayt = ({
   children,
@@ -12,7 +18,9 @@ const TravlPiinsAmfindslayt = ({
   scrollRef?: RefObject<ScrollViewType | null>;
 }) => {
   return (
-    <View style={styles.wudlanndvildexplorrlayBackground}>
+    <LinearGradient
+      colors={['rgb(47, 22, 3)', 'rgb(18, 8, 2)']}
+      style={styles.wudlanndvildexplorrlayBackground}>
       <ScrollView
         ref={scrollRef}
         bounces={bounce}
@@ -21,7 +29,7 @@ const TravlPiinsAmfindslayt = ({
         keyboardShouldPersistTaps="handled">
         {children}
       </ScrollView>
-    </View>
+    </LinearGradient>
   );
 };
 

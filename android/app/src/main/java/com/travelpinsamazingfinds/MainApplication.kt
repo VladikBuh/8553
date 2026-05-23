@@ -1,4 +1,4 @@
-package com.travelpinsamazingfinds
+package com.theamazonn.travelpins
 
 import android.app.Application
 import com.facebook.react.PackageList

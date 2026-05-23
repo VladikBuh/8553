@@ -95,7 +95,8 @@ const TravlPiinsAmfindslodd = () => {
         showsVerticalScrollIndicator={false}>
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
           <Image
-            source={require('../../assets/imgs/splashIcon.png')}
+            source={require('../../assets/imgs/icon.png')}
+            style={{width: 150, height: 150, borderRadius: 42}}
           />
         </View>
         <View style={styles.bottomLoaderWrap}>
