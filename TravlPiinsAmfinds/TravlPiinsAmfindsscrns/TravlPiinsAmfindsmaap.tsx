@@ -120,6 +120,24 @@ function travlPiinsAmfindsCatalogPinColor(
   return travlPiinsAmfindsCOrange;
 }
 
+function travlPiinsAmfindsAndroidPinHue(
+  mark: 'none' | 'want' | 'visited',
+): 'orange' | 'green' | 'violet' {
+  if (mark === 'want') {
+    return 'violet';
+  }
+  if (mark === 'visited') {
+    return 'green';
+  }
+  return 'orange';
+}
+
+function travlPiinsAmfindsAndroidCustomPinHue(
+  status: 'want' | 'visited',
+): 'green' | 'violet' {
+  return status === 'visited' ? 'green' : 'violet';
+}
+
 function TravlPiinsAmfindsMapPinBubble({
   travlPiinsAmfindsColor,
 }: {
@@ -344,11 +362,18 @@ const TravlPiinsAmfindsmaap = (): React.JSX.Element => {
             latitude: loc.travlPiinsAmfindsLat,
             longitude: loc.travlPiinsAmfindsLng,
           }}
-          tracksViewChanges={false}
+          pinColor={
+            Platform.OS === 'android'
+              ? travlPiinsAmfindsAndroidPinHue(m)
+              : undefined
+          }
+          tracksViewChanges={Platform.OS !== 'android'}
           onPress={() => {
             settravlPiinsAmfindsSelectedCatalogId(loc.travlPiinsAmfindsId);
           }}>
-          <TravlPiinsAmfindsMapPinBubble travlPiinsAmfindsColor={color} />
+          {Platform.OS === 'android' ? null : (
+            <TravlPiinsAmfindsMapPinBubble travlPiinsAmfindsColor={color} />
+          )}
         </Marker>
       );
     });
@@ -366,8 +391,15 @@ const TravlPiinsAmfindsmaap = (): React.JSX.Element => {
             latitude: pin.travlPiinsAmfindsLat,
             longitude: pin.travlPiinsAmfindsLng,
           }}
-          tracksViewChanges={false}>
-          <TravlPiinsAmfindsMapPinBubble travlPiinsAmfindsColor={color} />
+          pinColor={
+            Platform.OS === 'android'
+              ? travlPiinsAmfindsAndroidCustomPinHue(pin.travlPiinsAmfindsStatus)
+              : undefined
+          }
+          tracksViewChanges={Platform.OS !== 'android'}>
+          {Platform.OS === 'android' ? null : (
+            <TravlPiinsAmfindsMapPinBubble travlPiinsAmfindsColor={color} />
+          )}
         </Marker>
       );
     });
@@ -458,13 +490,16 @@ const TravlPiinsAmfindsmaap = (): React.JSX.Element => {
                 <Marker
                   coordinate={travlPiinsAmfindsDraftCoord}
                   draggable
+                  pinColor={Platform.OS === 'android' ? 'orange' : undefined}
                   onDragEnd={e =>
                     settravlPiinsAmfindsDraftCoord(e.nativeEvent.coordinate)
                   }
-                  tracksViewChanges={false}>
-                  <View style={styles.travlPiinsAmfindsDraftDotOut}>
-                    <View style={styles.travlPiinsAmfindsDraftDotIn} />
-                  </View>
+                  tracksViewChanges={Platform.OS !== 'android'}>
+                  {Platform.OS === 'android' ? null : (
+                    <View style={styles.travlPiinsAmfindsDraftDotOut}>
+                      <View style={styles.travlPiinsAmfindsDraftDotIn} />
+                    </View>
+                  )}
                 </Marker>
               ) : null}
             </MapView>

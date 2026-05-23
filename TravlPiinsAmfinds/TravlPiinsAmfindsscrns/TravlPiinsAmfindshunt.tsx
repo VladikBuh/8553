@@ -4,6 +4,7 @@ import {
   Dimensions,
   Image,
   Modal,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -27,6 +28,7 @@ import {
   travlPiinsAmfindsSaveHuntPhotos,
   type TravlPiinsAmfindsHuntPhoto,
 } from '../TravlPiinsAmfindsdata/travlPiinsAmfindsHuntStorage';
+import Orientation from 'react-native-orientation-locker';
 
 const travlPiinsAmfindsOrange = '#F0A030';
 const travlPiinsAmfindsGreen = '#26D07C';
@@ -164,6 +166,15 @@ const TravlPiinsAmfindshunt = (): React.JSX.Element => {
     settravlPiinsAmfindsDeletePhoto(null);
   };
 
+  useFocusEffect(
+    useCallback(() => {
+      Orientation.lockToPortrait();
+      return () => {
+        Orientation.unlockAllOrientations();
+      };
+    }, []),
+  );
+
   const travlPiinsAmfindsLatestPhotoForTask = (
     travlPiinsAmfindsTaskId: string,
   ) => {
@@ -284,9 +295,7 @@ const TravlPiinsAmfindshunt = (): React.JSX.Element => {
       return (
         <View style={styles.travlPiinsAmfindsEmpty}>
           <View style={styles.travlPiinsAmfindsEmptyFrame}>
-            <Image
-              source={require('../../assets/imgs/photoEmpty.png')}
-            />
+            <Image source={require('../../assets/imgs/photoEmpty.png')} />
           </View>
           <Text style={styles.travlPiinsAmfindsEmptyTitle}>Board is empty</Text>
           <Text style={styles.travlPiinsAmfindsEmptySub}>
@@ -298,9 +307,7 @@ const TravlPiinsAmfindshunt = (): React.JSX.Element => {
               styles.travlPiinsAmfindsFirstPhotoBtn,
               pressed && styles.travlPiinsAmfindsPressed,
             ]}>
-            <Image
-              source={require('../../assets/imgs/photoAdd.png')}
-            />
+            <Image source={require('../../assets/imgs/photoAdd.png')} />
             <Text style={styles.travlPiinsAmfindsFirstPhotoTxt}>
               Add First Photo
             </Text>
@@ -324,9 +331,7 @@ const TravlPiinsAmfindshunt = (): React.JSX.Element => {
                 styles.travlPiinsAmfindsEditIconBtn,
                 pressed && styles.travlPiinsAmfindsPressed,
               ]}>
-              <Image
-                source={require('../../assets/imgs/photoEdit.png')}
-              />
+              <Image source={require('../../assets/imgs/photoEdit.png')} />
             </Pressable>
             {travlPiinsAmfindsBoardEdit ? (
               <Pressable
@@ -595,6 +600,7 @@ const TravlPiinsAmfindshunt = (): React.JSX.Element => {
       <Modal
         visible={travlPiinsAmfindsDeletePhoto !== null}
         transparent
+        statusBarTranslucent={Platform.OS === 'android'}
         animationType="fade"
         onRequestClose={() => settravlPiinsAmfindsDeletePhoto(null)}>
         <View style={styles.travlPiinsAmfindsDelOverlay}>
@@ -604,9 +610,7 @@ const TravlPiinsAmfindshunt = (): React.JSX.Element => {
           />
           <View style={styles.travlPiinsAmfindsDelCard}>
             <View style={styles.travlPiinsAmfindsDelIconWrap}>
-              <Image
-                source={require('../../assets/imgs/deleteHandle.png')}
-              />
+              <Image source={require('../../assets/imgs/deleteHandle.png')} />
             </View>
             <Text style={styles.travlPiinsAmfindsDelTitle}>Delete Photo?</Text>
             <Text style={styles.travlPiinsAmfindsDelBody}>
